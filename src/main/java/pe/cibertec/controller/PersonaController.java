@@ -17,28 +17,56 @@ public class PersonaController {
 
     @GetMapping("/listPersonas")
     public ResponseEntity<List<Persona>> listarPersonas() {
-        return ResponseEntity.ok(personaService.listarPersonas());
+        try {
+            return ResponseEntity.ok(personaService.listarPersonas());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().build();
+        }
     }
 
-    @GetMapping("/Persona/{id}")
+    @GetMapping("/persona/{id}")
     public ResponseEntity<Persona> obtenerPersona(@PathVariable Integer id) {
-        return ResponseEntity.ok(personaService.obtenerPersonaPorId(id));
+        try {
+            return ResponseEntity.ok(personaService.obtenerPorId(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @PostMapping("/agregarPersona")
-    public ResponseEntity<Persona> agregarPersona(@RequestBody Persona persona) {
-        return ResponseEntity.status(201).body(personaService.agregarPersona(persona));
+    public void agregarPersona(@RequestBody Persona persona) {
+        try {
+            personaService.agregarPersona(persona);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @PutMapping("/actualizarPersona/{id}")
-    public ResponseEntity<Persona> actualizarPersona(@PathVariable Integer id, @RequestBody Persona persona) {
-        return ResponseEntity.ok(personaService.actualizarPersona(id, persona));
+    public ResponseEntity<String> actualizarPersona(@PathVariable Integer id, @RequestBody Persona persona) {
+        try {
+            return ResponseEntity.ok(personaService.actualizarPersona(id, persona));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @DeleteMapping("/eliminarPersona/{id}")
-    public ResponseEntity<Void> eliminarPersona(@PathVariable Integer id) {
-        personaService.eliminarPersona(id);
-        return ResponseEntity.noContent().build();
+    public String eliminarPersona(@PathVariable Integer id) {
+        return personaService.eliminarPersona(id);
+    }
+
+    @GetMapping("/personaDni")
+    public ResponseEntity<Persona> obtenerPorDni(@RequestParam String dni) {
+        try {
+            return ResponseEntity.ok(personaService.obtenerPorDni(dni));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().build();
+        }
     }
 
 }
